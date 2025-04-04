@@ -1,8 +1,9 @@
 name: CI
 on: [push]
 jobs:
-  build_manual:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: kvm-ok
+      - uses: actions/checkout@v1
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v1
