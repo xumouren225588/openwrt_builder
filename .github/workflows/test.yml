@@ -8,6 +8,6 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v1
-      - run: apt-get update && apt-get install sudo live-build
+      - run: apt-get update && apt-get install -y sudo live-build
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v1
