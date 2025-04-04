@@ -3,11 +3,6 @@ on: [push]
 jobs:
   build_manual:
     runs-on: ubuntu-latest
-    container:
-      image: "debian:latest"
-      options: --privileged
     steps:
-      - uses: actions/checkout@v1
-      - run: apt-get update && apt-get install -y sudo live-build
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v1
+      - uses: actions/checkout@v4
+      - run: kvm-ok
