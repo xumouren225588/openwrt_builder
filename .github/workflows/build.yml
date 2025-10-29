@@ -22,7 +22,7 @@ jobs:
           mkdir -p ./files
           sudo chown -R 1000:1000 ./bin
           sudo chown -R 1000:1000 ./files
-          docker run -rm openwrt/imagebuilder:${{ github.event.inputs.arch }} bash -c "[ ! -d ./scripts ] && ./setup.sh && echo 支持的设备列表 && make info"
+          docker run --rm openwrt/imagebuilder:${{ github.event.inputs.arch }} bash -c "[ ! -d ./scripts ] && ./setup.sh && echo 支持的设备列表 && make info"
       - name: 请使用下面所显示的命令连接服务器
         uses: csexton/debugger-action@master
       - name: 上传构建产物
