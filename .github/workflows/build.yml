@@ -1,0 +1,32 @@
+name: CI
+on: 
+  workflow_dispatch:
+    inputs:
+      arch:
+        description: '请输入目标构建类型（可在https://1ms.run/r/openwrt/imagebuilder 查看）'
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 环境初始化
+        run: |
+          docker pull openwrt/imagebuilder:${{ github.event.inputs.arch }}
+          cat > ./init << 'EOF'
+          #!/bin/bash
+          docker run --rm -v "\$(pwd)"/bin/:/builder/bin -v "\$(pwd)"/files:/builder/files -it openwrt/imagebuilder:${{ github.event.inputs.arch }}
+          EOF
+          chmod +x ./init
+          mkdir -p ./bin
+          mkdir -p ./files
+          sudo chown -R 1000:1000 ./bin
+          sudo chown -R 1000:1000 ./files
+          docker run -rm openwrt/imagebuilder:${{ github.event.inputs.arch }} bash -c "[ ! -d ./scripts ] && ./setup.sh && echo 支持的设备列表 && make info"
+      - name: 请使用下面所显示的命令连接服务器
+        uses: csexton/debugger-action@master
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: bin/*
