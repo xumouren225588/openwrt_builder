@@ -15,7 +15,7 @@ jobs:
           docker pull openwrt/imagebuilder:${{ github.event.inputs.arch }}
           cat > ./init << 'EOF'
           #!/bin/bash
-          docker run --rm -v "\$(pwd)"/bin/:/builder/bin -v "\$(pwd)"/files:/builder/files -it openwrt/imagebuilder:${{ github.event.inputs.arch }}
+          docker run --rm -v ./bin/:/builder/bin -v ./files:/builder/files -it openwrt/imagebuilder:${{ github.event.inputs.arch }}
           EOF
           chmod +x ./init
           mkdir -p ./bin
